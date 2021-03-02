@@ -1,0 +1,497 @@
+Assignment1 PartA
+
+Name: Pucheng Tan
+NSID: put178
+Student Number: 11273627
+
+----------------------Brief Introduction----------------------
+The purpose of this assignment is to implement several servers and a client
+for a simple weekly weather service, in C. 
+
+----------------------Design----------------------
+The weather summary is hard coded in an array. For the convenience of testing, 
+the weather summary given to each day are:
+    Monday: 1 degree
+    Tuesday: 2 degree
+    Wednesday: 3 degree
+    Thursday: 4 degree
+    Friday: 5 degree
+    Saturday 6 degree
+    Sunday 7 degree
+
+----------------------Files----------------------
+1. Makefile
+2. client.c
+
+3. server.c
+   The port number was set on line 18 to be 33300, but you can change it
+   to any idle port number between 30000 and 40000.
+
+4. proxy2.c
+   The proxy server works as a 'client' when connecting to the real server by 
+   TCP, and works as a 'server' when connecting to the client by TCP. 
+   It follows the steps:
+      - Receive request from the client
+      - Send request to the server
+      - Hear back from the server
+      - Respond to the client
+   The port number was set on line 18 to be 38500, but you can change it
+   to any idle port number between 30000 and 40000.
+
+   When receiving the request 'all', the proxy make a sequence of seven response with
+   an added heading for each summary giving the name of the corresponding day of the week.
+
+5. talker.c
+
+6. listener.c
+    The port number was set on line 16 to be 39500, but you can change it
+    to any idle port number between 30000 and 40000.
+   
+7. proxy3.c
+   The proxy server uses TCP to communicate with the client, and UDP to communicate
+   with the UDP-based server. It follows the steps:
+      - Receive request from the client
+      - Send request to the server
+      - Hear back from the server
+      - Respond to the client
+   The port number was set on line 18 to be 39600, but you can change it
+   to any idle port number between 30000 and 40000.
+
+   When receiving the request 'all', the proxy make a sequence of seven response with
+   an added heading for each summary giving the name of the corresponding day of the week.
+
+----------------------Quality Assurance Strategy----------------------
+- For any non-valid inputs, "Enter the day of a week" will prompt again.
+  Non-valid arguments will be detected on the client side, without sending
+  to the server.
+- All valid arguments were tested 
+
+----------------------Testing----------------------
+    This part is showing the program is working, but can also be used as examples of 
+    how to run the program.
+
+----------------------q1 testing----------------------
+----- in the first console -----:
+put178@tux7:~/434/a1> make
+gcc -o client -Wall client.c
+gcc -o server -Wall server.c
+gcc -o proxy2 -Wall proxy2.c
+gcc -o listener -Wall listener.c
+gcc -o talker -Wall talker.c
+gcc -o proxy3 -Wall proxy3.c
+put178@tux7:~/434/a1> server
+server: waiting for connections...
+server: got connection from 127.0.0.1
+server: received 'Monday'
+server: got connection from 127.0.0.1
+server: received 'Tuesday'
+server: got connection from 127.0.0.1
+server: received 'Wednesday'
+server: got connection from 127.0.0.1
+server: received 'Thursday'
+server: got connection from 127.0.0.1
+server: received 'Friday'
+server: got connection from 127.0.0.1
+server: received 'Saturday'
+server: got connection from 127.0.0.1
+server: received 'Sunday'
+
+----- in the second console -----:
+put178@tux7:~/434/a1> client localhost 37200
+Enter the day of a week
+Monday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 1 degree
+
+Enter the day of a week
+Tuesday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 2 degree
+
+Enter the day of a week
+Wednesday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 3 degree
+
+Enter the day of a week
+Thursday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 4 degree
+
+Enter the day of a week
+Friday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 5 degree
+
+Enter the day of a week
+Saturday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 6 degree
+
+Enter the day of a week
+Sunday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 7 degree
+
+Enter the day of a week
+quit
+put178@tux7:~/434/a1> 
+
+----------------------q2 testing----------------------
+----- in the first console -----:
+put178@tux7:~/434/a1> server
+server: waiting for connections...
+server: got connection from 127.0.0.1
+server: received 'Monday'
+server: got connection from 127.0.0.1
+server: received 'Sunday'
+server: got connection from 127.0.0.1
+server: received 'Monday'
+server: got connection from 127.0.0.1
+server: received 'Tuesday'
+server: got connection from 127.0.0.1
+server: received 'Wednesday'
+server: got connection from 127.0.0.1
+server: received 'Thursday'
+server: got connection from 127.0.0.1
+server: received 'Friday'
+server: got connection from 127.0.0.1
+server: received 'Saturday'
+server: got connection from 127.0.0.1
+server: received 'Sunday'
+
+----- in the second console -----:
+In the proxy test, 'server' indicates the proxy server
+is acting as a server connecting to the client. 'client'
+indicates the proxy server is acting as a client connecting
+to the server
+
+put178@tux7:~/434/a1> proxy2 localhost 37201
+server: waiting for connections...
+server: got connection from 127.0.0.1
+server: received 'Monday'
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+server: got connection from 127.0.0.1
+server: received 'Sunday'
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+server: got connection from 127.0.0.1
+server: received 'all'
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+----- in the third console -----:
+put178@tux7:~/434/a1> client localhost 37400
+Enter the day of a week
+Monday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 1 degree
+
+Enter the day of a week
+monday
+Enter the day of a week
+friday
+Enter the day of a week
+Sunday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 7 degree
+
+Enter the day of a week
+all
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 
+Monday: 1 degree
+Tuesday: 2 degree
+Wednesday: 3 degree
+Thursday: 4 degree
+Friday: 5 degree
+Saturday: 6 degree
+Sunday: 7 degree
+
+Enter the day of a week
+quit
+
+----------------------q3 (a) testing----------------------
+
+----- in the first console -----:
+put178@tux7:~/434/a1> listener
+listener: waiting to recvfrom...
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Monday"
+listener: got packet from ::1
+listener: packet is 7 bytes long
+listener: packet contains "Tuesday"
+listener: got packet from ::1
+listener: packet is 9 bytes long
+listener: packet contains "Wednesday"
+listener: got packet from ::1
+listener: packet is 8 bytes long
+listener: packet contains "Thursday"
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Friday"
+listener: got packet from ::1
+listener: packet is 8 bytes long
+listener: packet contains "Saturday"
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Sunday"
+
+----- in the second console -----:
+put178@tux7:~/434/a1> talker localhost 38202
+Enter the day of a week
+Monday
+talker: got packet from ::1
+talker: packet is 8 bytes long
+
+Weather Summary: 1 degree
+
+talker: sent 8 bytes to localhost
+Enter the day of a week
+Tuesday
+talker: got packet from ::1
+talker: packet is 8 bytes long
+
+Weather Summary: 2 degree
+
+talker: sent 8 bytes to localhost
+Enter the day of a week
+Wed    
+Enter the day of a week
+wednesday
+Enter the day of a week
+Wednesday
+talker: got packet from ::1
+talker: packet is 8 bytes long
+
+Weather Summary: 3 degree
+
+talker: sent 8 bytes to localhost
+Enter the day of a week
+Thursday
+talker: got packet from ::1
+talker: packet is 8 bytes long
+
+Weather Summary: 4 degree
+
+talker: sent 8 bytes to localhost
+Enter the day of a week
+Friday
+talker: got packet from ::1
+talker: packet is 8 bytes long
+
+Weather Summary: 5 degree
+
+talker: sent 8 bytes to localhost
+Enter the day of a week
+Saturday
+talker: got packet from ::1
+talker: packet is 8 bytes long
+
+Weather Summary: 6 degree
+
+talker: sent 8 bytes to localhost
+Enter the day of a week
+Sunday
+talker: got packet from ::1
+talker: packet is 8 bytes long
+
+Weather Summary: 7 degree
+
+talker: sent 8 bytes to localhost
+Enter the day of a week
+quit
+
+----------------------q3 (b) testing----------------------
+
+----- in the first console -----:
+put178@tux7:~/434/a1> listener
+listener: waiting to recvfrom...
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Monday"
+listener: got packet from ::1
+listener: packet is 7 bytes long
+listener: packet contains "Tuesday"
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Friday"
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Sunday"
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Friday"
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Monday"
+listener: got packet from ::1
+listener: packet is 7 bytes long
+listener: packet contains "Tuesday"
+listener: got packet from ::1
+listener: packet is 9 bytes long
+listener: packet contains "Wednesday"
+listener: got packet from ::1
+listener: packet is 8 bytes long
+listener: packet contains "Thursday"
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Friday"
+listener: got packet from ::1
+listener: packet is 8 bytes long
+listener: packet contains "Saturday"
+listener: got packet from ::1
+listener: packet is 6 bytes long
+listener: packet contains "Sunday"
+
+----- in the second console -----:
+put178@tux7:~/434/a1> proxy3 localhost 38203
+server: waiting for connections...
+server: got connection from 127.0.0.1
+server: received 'Monday'
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "1 degree"
+talker: sent 8 bytes to localhost
+server: got connection from 127.0.0.1
+server: received 'Tuesday'
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "2 degree"
+talker: sent 8 bytes to localhost
+server: got connection from 127.0.0.1
+server: received 'Friday'
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "5 degree"
+talker: sent 8 bytes to localhost
+server: got connection from 127.0.0.1
+server: received 'Sunday'
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "7 degree"
+talker: sent 8 bytes to localhost
+server: got connection from 127.0.0.1
+server: received 'Friday'
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "5 degree"
+talker: sent 8 bytes to localhost
+server: got connection from 127.0.0.1
+server: received 'all'
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "1 degree"
+talker: sent 8 bytes to localhost
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "2 degree"
+talker: sent 8 bytes to localhost
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "3 degree"
+talker: sent 8 bytes to localhost
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "4 degree"
+talker: sent 8 bytes to localhost
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "5 degree"
+talker: sent 8 bytes to localhost
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "6 degree"
+talker: sent 8 bytes to localhost
+talker: got packet from ::1
+talker: packet is 8 bytes long
+talker: packet contains "7 degree"
+talker: sent 8 bytes to localhost
+
+----- in the third console -----:
+put178@tux7:~/434/a1> client localhost 38400
+Enter the day of a week
+Monday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 1 degree
+
+Enter the day of a week
+Tuesday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 2 degree
+
+Enter the day of a week
+Friday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 5 degree
+
+Enter the day of a week
+Sunday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 7 degree
+
+Enter the day of a week
+Friday
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 5 degree
+
+Enter the day of a week
+all
+client: connect: Connection refused
+client: connecting to 127.0.0.1
+
+Weather Summary: 
+Monday: 1 degree
+Tuesday: 2 degree
+Wednesday: 3 degree
+Thursday: 4 degree
+Friday: 5 degree
+Saturday: 6 degree
+Sunday: 7 degree
+
+Enter the day of a week
+quit
